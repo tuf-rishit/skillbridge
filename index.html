@@ -1,0 +1,70 @@
+<!-- templates/index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>SkillBridge – AI Career Platform</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Segoe UI', sans-serif; background: #f5f7fa; color: #1a1a2e; }
+    nav { background: #1a1a6e; padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; }
+    nav h1 { color: #fff; font-size: 1.5rem; }
+    nav a { color: #a0c4ff; text-decoration: none; margin-left: 1.5rem; font-size: 0.95rem; }
+    .hero { text-align: center; padding: 5rem 2rem; background: linear-gradient(135deg, #1a1a6e 0%, #023e8a 60%, #0077b6 100%); color: white; }
+    .hero h2 { font-size: 2.8rem; margin-bottom: 1rem; }
+    .hero p { font-size: 1.15rem; max-width: 600px; margin: 0 auto 2rem; opacity: 0.9; }
+    .btn { display: inline-block; padding: 0.8rem 2rem; background: #00b4d8; color: white; text-decoration: none; border-radius: 8px; font-weight: 600; margin: 0.4rem; transition: background 0.2s; }
+    .btn:hover { background: #0096c7; }
+    .btn-outline { background: transparent; border: 2px solid #90e0ef; color: #90e0ef; }
+    .btn-outline:hover { background: rgba(255,255,255,0.1); }
+    .features { display: flex; flex-wrap: wrap; gap: 1.5rem; justify-content: center; padding: 4rem 2rem; }
+    .card { background: white; border-radius: 12px; padding: 2rem; width: 280px; box-shadow: 0 2px 12px rgba(0,0,0,0.08); text-align: center; }
+    .card .icon { font-size: 2.5rem; margin-bottom: 0.8rem; }
+    .card h3 { color: #1a1a6e; margin-bottom: 0.5rem; }
+    .card p { font-size: 0.9rem; color: #555; line-height: 1.6; }
+    footer { text-align: center; padding: 2rem; color: #888; font-size: 0.85rem; }
+  </style>
+</head>
+<body>
+  <nav>
+    <h1>🌉 SkillBridge</h1>
+    <div>
+      <a href="/login">Login</a>
+      <a href="/signup">Sign Up</a>
+    </div>
+  </nav>
+
+  <div class="hero">
+    <h2>Bridge Your Skills to Your Dream Career</h2>
+    <p>An AI-powered platform that maps your skills, identifies gaps, and recommends the best career paths and courses — personalized just for you.</p>
+    <a href="/signup" class="btn">Get Started Free</a>
+    <a href="/login" class="btn btn-outline">Login</a>
+  </div>
+
+  <div class="features">
+    <div class="card">
+      <div class="icon">🤖</div>
+      <h3>AI-Powered Analysis</h3>
+      <p>Smart algorithms analyze your skills, interests, and educational background to find the best career fit.</p>
+    </div>
+    <div class="card">
+      <div class="icon">🗺️</div>
+      <h3>Personalized Pathways</h3>
+      <p>Get a tailored career roadmap with recommended skills and courses to bridge any gaps.</p>
+    </div>
+    <div class="card">
+      <div class="icon">📊</div>
+      <h3>Skill Gap Analysis</h3>
+      <p>See exactly which skills you're missing and what you need to learn to land your target role.</p>
+    </div>
+    <div class="card">
+      <div class="icon">📄</div>
+      <h3>Resume Tips</h3>
+      <p>Automated, personalized suggestions to optimize your resume for your chosen career path.</p>
+    </div>
+  </div>
+
+  <footer>SkillBridge &copy; 2026 — Minor Project | Kanishka Rajak, Harshita Soni, Olisha Patel</footer>
+</body>
+</html>

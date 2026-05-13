@@ -1,0 +1,143 @@
+<!-- templates/results.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <title>Your Results – SkillBridge</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Segoe UI', sans-serif; background: #f0f4ff; color: #1a1a2e; }
+    nav { background: #1a1a6e; padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; }
+    nav h1 { color: white; font-size: 1.3rem; }
+    nav div { display: flex; gap: 1.5rem; }
+    nav a { color: #a0c4ff; text-decoration: none; font-size: 0.9rem; }
+    .container { max-width: 900px; margin: 2rem auto; padding: 0 1rem; }
+    .domain-banner { background: linear-gradient(135deg,#1a1a6e,#0077b6); color: white; border-radius: 16px; padding: 1.8rem 2rem; margin-bottom: 2rem; display: flex; justify-content: space-between; align-items: center; }
+    .domain-banner h2 { font-size: 1.4rem; margin-bottom: 0.3rem; }
+    .domain-banner p { opacity: 0.85; font-size: 0.9rem; }
+    .domain-label { background: rgba(255,255,255,0.2); border-radius: 30px; padding: 0.5rem 1.4rem; font-size: 1rem; font-weight: 700; }
+    section { margin-bottom: 2rem; }
+    section h3 { font-size: 1.1rem; color: #1a1a6e; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem; }
+    .careers { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1rem; }
+    .career-card { background: white; border-radius: 12px; padding: 1.4rem; box-shadow: 0 2px 10px rgba(0,0,0,0.07); border-left: 4px solid #0077b6; }
+    .career-card h4 { color: #1a1a6e; margin-bottom: 0.3rem; }
+    .match-badge { display: inline-block; font-size: 0.75rem; padding: 0.2rem 0.7rem; border-radius: 20px; font-weight: 600; margin-bottom: 0.6rem; }
+    .high { background: #d4edda; color: #155724; }
+    .medium { background: #d1ecf1; color: #0c5460; }
+    .potential { background: #fff3cd; color: #856404; }
+    .score-bar { height: 6px; background: #e9ecef; border-radius: 4px; margin-top: 0.6rem; }
+    .score-fill { height: 100%; border-radius: 4px; background: linear-gradient(90deg, #0077b6, #00b4d8); }
+    .tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 0.6rem; }
+    .tag { background: #eef4ff; color: #0077b6; border-radius: 20px; padding: 0.2rem 0.6rem; font-size: 0.72rem; }
+    .gap-list { display: flex; flex-wrap: wrap; gap: 0.6rem; }
+    .gap-pill { background: #fff0f0; color: #d62828; border: 1px solid #f7b2b2; border-radius: 20px; padding: 0.35rem 0.9rem; font-size: 0.85rem; }
+    .course-list { display: grid; gap: 0.8rem; }
+    .course-item { background: white; border-radius: 10px; padding: 1.1rem 1.4rem; box-shadow: 0 2px 8px rgba(0,0,0,0.06); display: flex; justify-content: space-between; align-items: center; }
+    .course-item .left h4 { font-size: 0.95rem; color: #1a1a6e; margin-bottom: 0.2rem; }
+    .course-item .left p { font-size: 0.8rem; color: #666; }
+    .course-item a { background: #0077b6; color: white; text-decoration: none; padding: 0.4rem 1rem; border-radius: 8px; font-size: 0.82rem; white-space: nowrap; }
+    .course-item a:hover { background: #005f99; }
+    .tips-list { list-style: none; display: grid; gap: 0.7rem; }
+    .tips-list li { background: white; padding: 1rem 1.2rem; border-radius: 10px; font-size: 0.9rem; box-shadow: 0 2px 6px rgba(0,0,0,0.06); display: flex; gap: 0.7rem; }
+    .tips-list li::before { content: '💡'; flex-shrink: 0; }
+    .actions { display: flex; gap: 1rem; flex-wrap: wrap; margin-top: 2rem; margin-bottom: 3rem; }
+    .actions a { padding: 0.8rem 1.8rem; border-radius: 8px; text-decoration: none; font-weight: 600; font-size: 0.9rem; }
+    .btn-primary { background: #1a1a6e; color: white; }
+    .btn-secondary { background: white; color: #1a1a6e; border: 2px solid #1a1a6e; }
+    .skills-list { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+    .skill-pill { background: #e8f4fd; color: #0077b6; border-radius: 20px; padding: 0.3rem 0.8rem; font-size: 0.82rem; }
+  </style>
+</head>
+<body>
+  <nav>
+    <h1>🌉 SkillBridge</h1>
+    <div>
+      <a href="/profile">New Analysis</a>
+      <a href="/logout">Logout</a>
+    </div>
+  </nav>
+
+  <div class="container">
+    <!-- Domain Banner -->
+    <div class="domain-banner">
+      <div>
+        <h2>🎯 Career Analysis for {{ user_name }}</h2>
+        <p>Based on {{ skills|length }} skills · {{ interests|length }} interests · {{ education }}</p>
+      </div>
+      <div class="domain-label">{{ domain }} Domain</div>
+    </div>
+
+    <!-- Your Skills -->
+    <section>
+      <h3>🧠 Your Current Skills</h3>
+      <div class="skills-list">
+        {% for skill in skills %}<span class="skill-pill">{{ skill }}</span>{% endfor %}
+      </div>
+    </section>
+
+    <!-- Career Recommendations -->
+    <section>
+      <h3>💼 Career Recommendations</h3>
+      <div class="careers">
+        {% for r in recommendations %}
+        <div class="career-card">
+          <h4>{{ r.title }}</h4>
+          <span class="match-badge {% if r.match_level == 'High Match' %}high{% elif r.match_level == 'Medium Match' %}medium{% else %}potential{% endif %}">
+            {{ r.match_level }}
+          </span>
+          <div class="score-bar">
+            <div class="score-fill" style="width: {{ [r.similarity_score * 150, 100]|min }}%"></div>
+          </div>
+          <div class="tags">
+            {% for skill in r.required_skills[:5] %}<span class="tag">{{ skill }}</span>{% endfor %}
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </section>
+
+    <!-- Skill Gaps -->
+    <section>
+      <h3>⚠️ Skill Gaps to Address</h3>
+      {% if skill_gaps %}
+      <div class="gap-list">
+        {% for gap in skill_gaps %}<span class="gap-pill">{{ gap }}</span>{% endfor %}
+      </div>
+      {% else %}
+      <p style="color:#27ae60; font-weight:600;">🎉 Great news! You already have most required skills for your top matches.</p>
+      {% endif %}
+    </section>
+
+    <!-- Course Recommendations -->
+    {% if courses %}
+    <section>
+      <h3>📚 Recommended Courses</h3>
+      <div class="course-list">
+        {% for course in courses %}
+        <div class="course-item">
+          <div class="left">
+            <h4>{{ course.course_name }}</h4>
+            <p>{{ course.platform }} · Covers: {{ course.skill }}</p>
+          </div>
+          <a href="{{ course.url }}" target="_blank">Enroll →</a>
+        </div>
+        {% endfor %}
+      </div>
+    </section>
+    {% endif %}
+
+    <!-- Resume Tips -->
+    <section>
+      <h3>📄 Resume Optimization Tips</h3>
+      <ul class="tips-list">
+        {% for tip in resume_tips %}<li>{{ tip }}</li>{% endfor %}
+      </ul>
+    </section>
+
+    <div class="actions">
+      <a href="/profile" class="actions btn-primary">🔄 Run New Analysis</a>
+      <a href="/" class="actions btn-secondary">🏠 Home</a>
+    </div>
+  </div>
+</body>
+</html>

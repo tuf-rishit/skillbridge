@@ -1,0 +1,96 @@
+<!-- templates/profile.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <title>Your Profile – SkillBridge</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Segoe UI', sans-serif; background: #f0f4ff; min-height: 100vh; }
+    nav { background: #1a1a6e; padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; }
+    nav h1 { color: white; font-size: 1.3rem; }
+    nav a { color: #a0c4ff; text-decoration: none; font-size: 0.9rem; }
+    .container { max-width: 680px; margin: 3rem auto; padding: 0 1rem; }
+    .card { background: white; border-radius: 16px; padding: 2.5rem; box-shadow: 0 4px 24px rgba(0,0,0,0.08); }
+    h2 { color: #1a1a6e; margin-bottom: 0.4rem; }
+    .subtitle { color: #666; font-size: 0.9rem; margin-bottom: 2rem; }
+    label { display: block; font-weight: 600; font-size: 0.85rem; color: #333; margin-bottom: 0.4rem; margin-top: 1.2rem; }
+    .hint { font-size: 0.78rem; color: #888; margin-bottom: 0.4rem; }
+    input, select, textarea { width: 100%; padding: 0.75rem 1rem; border: 1.5px solid #dde3f0; border-radius: 8px; font-size: 0.95rem; font-family: inherit; }
+    input:focus, select:focus { outline: none; border-color: #0077b6; }
+    .btn { margin-top: 2rem; width: 100%; padding: 0.9rem; background: #1a1a6e; color: white; border: none; border-radius: 8px; font-size: 1rem; font-weight: 600; cursor: pointer; transition: background 0.2s; }
+    .btn:hover { background: #0077b6; }
+    .tag-container { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.5rem; }
+    .tag { background: #e0f0ff; color: #0077b6; border-radius: 20px; padding: 0.3rem 0.9rem; font-size: 0.82rem; cursor: pointer; }
+    .tag:hover { background: #0077b6; color: white; }
+  </style>
+</head>
+<body>
+  <nav>
+    <h1>🌉 SkillBridge</h1>
+    <a href="/logout">Logout</a>
+  </nav>
+  <div class="container">
+    <div class="card">
+      <h2>👤 Build Your Profile</h2>
+      <p class="subtitle">Hello {{ user_name }}! Tell us about yourself so we can find your best career path.</p>
+
+      <label>Your Skills</label>
+      <div class="hint">Click to add or type comma-separated (e.g. Python, SQL, Communication)</div>
+      <div class="tag-container">
+        {% for skill in ["Python","JavaScript","SQL","Machine Learning","Excel","Figma","Communication","Leadership","React","Data Analysis"] %}
+        <span class="tag" onclick="addSkill('{{ skill }}')">+ {{ skill }}</span>
+        {% endfor %}
+      </div>
+      <input type="text" id="skills" placeholder="Python, SQL, Problem Solving..." style="margin-top:0.6rem"/>
+
+      <label>Interests</label>
+      <div class="hint">What fields excite you?</div>
+      <div class="tag-container">
+        {% for interest in ["Technology","Data","Design","Marketing","Management","AI","Business","Creativity"] %}
+        <span class="tag" onclick="addInterest('{{ interest }}')">+ {{ interest }}</span>
+        {% endfor %}
+      </div>
+      <input type="text" id="interests" placeholder="Technology, Data, Design..." style="margin-top:0.6rem"/>
+
+      <label>Education Level</label>
+      <select id="education">
+        <option>High School</option>
+        <option selected>Bachelor's Degree</option>
+        <option>Master's Degree</option>
+        <option>PhD</option>
+        <option>Diploma / Certificate</option>
+        <option>Self-taught</option>
+      </select>
+
+      <label>Years of Experience</label>
+      <input type="number" id="experience" min="0" max="40" value="0" placeholder="0"/>
+
+      <button class="btn" onclick="submitProfile()">🔍 Analyze My Profile</button>
+    </div>
+  </div>
+  <script>
+    function addSkill(skill) {
+      const el = document.getElementById('skills');
+      const current = el.value.trim();
+      el.value = current ? current + ', ' + skill : skill;
+    }
+    function addInterest(interest) {
+      const el = document.getElementById('interests');
+      const current = el.value.trim();
+      el.value = current ? current + ', ' + interest : interest;
+    }
+    async function submitProfile() {
+      const skills = document.getElementById('skills').value;
+      const interests = document.getElementById('interests').value;
+      const education = document.getElementById('education').value;
+      const experience_years = document.getElementById('experience').value;
+      if (!skills || !interests) { alert('Please enter your skills and interests.'); return; }
+      const res = await fetch('/profile', { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify({skills, interests, education, experience_years}) });
+      const data = await res.json();
+      if (res.ok) { window.location.href = data.redirect; }
+      else { alert(data.error); }
+    }
+  </script>
+</body>
+</html>
